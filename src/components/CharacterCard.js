@@ -38,7 +38,7 @@ function CharacterCard({ character, favIcon }) {
 
             // Get the latest 3 episode & update the state
             const latestEpisodes = character.episode.slice(-3)
-            setLinks(latestEpisodes)
+            setLinks(latestEpisodes.reverse())
 
             // Get the length of episode (No of episodes)
             setNoOfEpisodes(latestEpisodes.length)
@@ -96,10 +96,11 @@ function CharacterCard({ character, favIcon }) {
                     {/* expand the section when open state is true and triggerCardId(global state) equals to this character.id */}
                     {open &&
                         <div>
+                            <p className='episode-header'>Episode Detailes</p>
                             {triggerCardId === character.id && name.map((e, index) => {
                                 return (
                                     <div key={e.id}>
-                                        <p className='episode-header'>Episode Detailes</p>
+
                                         <div className="episode-container">
                                             <p className='episode-name'>{e.name}</p>
                                             <div className='episode-info'>
@@ -132,7 +133,7 @@ function CharacterCard({ character, favIcon }) {
                 </div>
 
             </motion.div>
-        </div >
+        </div>
     )
 }
 
