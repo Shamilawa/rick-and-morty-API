@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { motion } from "framer-motion"
 
 // custom hooks and context
 import { useFavCharsContext } from "../hooks/useFavCharsContext"
@@ -8,6 +9,7 @@ import CharacterCard from "../components/CharacterCard"
 
 function CharacterFeed() {
 
+    //These state store information about all characters and fav characters
     const [characters, setCharacters] = useState([])
     const [shaowFavChars, setShaowFavChars] = useState(false)
 
@@ -15,9 +17,13 @@ function CharacterFeed() {
     const [nextPage, setNextPage] = useState()
     const [prevPage, setPrevPage] = useState()
 
+    //get favCharacters from global state - FavCharsContext
     const { favCharacters } = useFavCharsContext()
 
-
+    //This function will generate random number which will use to generate unique key value for components
+    const genRanNum = () => {
+        return Math.random()
+    }
 
     //function to render the next page
     const NavigateNext = async () => {
@@ -35,6 +41,8 @@ function CharacterFeed() {
         }
 
         setCharacters(data.results)
+
+        window.scrollTo(0, 0)
     }
 
 
@@ -54,6 +62,8 @@ function CharacterFeed() {
         }
 
         setCharacters(data.results)
+
+        window.scrollTo(0, 0)
     }
 
 
@@ -86,9 +96,8 @@ function CharacterFeed() {
     }, [])
 
 
-
-
-    // Get favourite character
+    // Get favourite character. this update simple state based on true and false value which then use
+    // to conditionally render fav chars and all chars 
     const getFavChars = () => {
         setShaowFavChars(!shaowFavChars)
     }
@@ -96,8 +105,8 @@ function CharacterFeed() {
 
     return (
         <div>
-            <div>
-                <h5 onClick={getFavChars}>{shaowFavChars ? "All Characters" : "Show fav"}</h5>
+            <div className='container-header'>
+                <h5 onClick={getFavChars}>{shaowFavChars ? "All Characters" : "Show Favourite Characters"}</h5>
             </div>
 
             {shaowFavChars ?
@@ -115,7 +124,7 @@ function CharacterFeed() {
                 <div className="character-feed-container">
                     {characters && characters.map((character) => {
                         return (
-                            <CharacterCard key={character.id} character={character} favIcon={true} />
+                            <CharacterCard key={character.id + genRanNum()} character={character} favIcon={true} />
                         )
                     })}
                 </div>
@@ -124,12 +133,21 @@ function CharacterFeed() {
             {/* Pagination - only show in the feed page*/}
             {shaowFavChars ? null :
                 <div className="pagination">
-                    <span onClick={NavigatePrev} className="material-symbols-outlined">
+
+                    <motion.span
+                        onClick={NavigatePrev} className="material-symbols-outlined"
+                        whileTap={{ scale: 1.06 }}
+                    >
                         navigate_before
-                    </span>
-                    <span onClick={NavigateNext} className="material-symbols-outlined">
+                    </motion.span>
+
+                    <motion.span
+                        onClick={NavigateNext} className="material-symbols-outlined"
+                        whileTap={{ scale: 1.06 }}
+                    >
                         navigate_next
-                    </span>
+                    </motion.span>
+
                 </div>
             }
         </div>

@@ -1,20 +1,21 @@
 import { createContext, useReducer, useEffect } from "react"
 
-
 export const FavCharsContext = createContext()
 
+
+// reducer function to manage data based on dispatch 
 const FavCharsReducer = (state, action) => {
     switch (action.type) {
-        case "ADD_CHARS":
-            if (!state.favCharacters) {
-                return {
-                    favCharacters: [action.payload]
-                }
-            } else {
-                return {
-                    favCharacters: [action.payload, ...state.favCharacters]
-                }
-            }
+        // case "ADD_CHARS":
+        //     if (!state.favCharacters) {
+        //         return {
+        //             favCharacters: [action.payload]
+        //         }
+        //     } else {
+        //         return {
+        //             favCharacters: [action.payload, ...state.favCharacters]
+        //         }
+        //     }
         case "LOCAL_ADD_CHARS": {
             return {
                 favCharacters: action.payload
@@ -45,9 +46,6 @@ export const FavCharsContextProvider = ({ children }) => {
         }
 
     }, [])
-
-    console.log(state.favCharacters);
-
 
     return (
         <FavCharsContext.Provider value={{ ...state, dispatch }}>

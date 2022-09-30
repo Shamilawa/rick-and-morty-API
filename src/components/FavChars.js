@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { motion } from "framer-motion"
 
 // importing the custom hooks
 //this manage users fav cards
 import { useFavCharsContext } from "../hooks/useFavCharsContext"
+
+// importing assests
+import likeIcon from "../assets/images/like.svg"
 
 function FavChars({ character, favIcon }) {
 
@@ -10,15 +14,10 @@ function FavChars({ character, favIcon }) {
     //import dispatch from FavChartContext using custom hook
     const { dispatch } = useFavCharsContext()
 
-    //state to track button click
-    const [clicked, setClicked] = useState(false)
-
 
     // manage the localstorage and FavCharsContext
     const storeInLocalStorage = (item, newCharacter) => {
 
-        // change the state of the button
-        setClicked(!clicked)
 
         //get item from local storage
         var data = localStorage.getItem(item)
@@ -30,7 +29,6 @@ function FavChars({ character, favIcon }) {
             data.push(newCharacter)
             localStorage.setItem(item, JSON.stringify(data))
             dispatch({ type: "LOCAL_ADD_CHARS", payload: data })
-            setClicked(true)
             return
 
         } else {
@@ -63,13 +61,15 @@ function FavChars({ character, favIcon }) {
     return (
         <div>
             {favIcon &&
-                <span
+                <motion.img
+                    src={likeIcon}
                     className="material-symbols-outlined fav-button"
-                    onClick={() => storeInLocalStorage("favChars", character)}
-                    style={clicked ? { color: "red" } : null}
-                >
-                    favorite
-                </span>
+                    onClick={() => {
+                        storeInLocalStorage("favChars", character)
+                    }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                />
             }
         </div>
     )

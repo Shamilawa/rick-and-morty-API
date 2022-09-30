@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { motion } from "framer-motion"
 
 // Pages and components
 import FavChars from "../components/FavChars"
@@ -7,19 +8,27 @@ import FavChars from "../components/FavChars"
 //this manage card open anc close
 import { useFocusCardContext } from "../hooks/useFocusCardContext"
 
+//importing assests
+import speciesIcon from "../assets/images/species.svg"
+import earthIcon from "../assets/images/earth.svg"
+
+
 function CharacterCard({ character, favIcon }) {
 
+    //This state store latest three epsodes
     const [link, setLinks] = useState([])
+
+    // this state keep track of number of episode - this will use to loop through the array of epi links
     const [noOfEpisodes, setNoOfEpisodes] = useState()
+
+    // this store episode informations
     const [name, setName] = useState([])
 
     // state to track card open and close
     const [open, setOpen] = useState(false)
 
-
-    // importing the custom hooks
+    // importing the custom hooks. This help to determin which card user click
     const { triggerCardId, setTriggerCardId } = useFocusCardContext()
-
 
 
     useEffect(() => {
@@ -41,6 +50,7 @@ function CharacterCard({ character, favIcon }) {
 
                 const data = await res.json()
 
+                // update state which contain all the episodes
                 setName(preValue => [...preValue, data])
             }
 
@@ -52,21 +62,34 @@ function CharacterCard({ character, favIcon }) {
     }, [character.episode, noOfEpisodes])
 
 
-
     return (
         <div>
-            <div className='character-card'>
-
-
+            <motion.div
+                className='character-card'
+                whileTap={{ scale: 1.01 }}
+            >
                 <div>
-                    <div>{character.status}</div>
-                    <img src={character.image} alt="character avatar" />
-                    <div>
-                        <h3>{character.name}</h3>
+                    <img className='character-img' src={character.image} alt="character avatar" />
+                    <div className='status'>{character.status}</div>
+
+
+                    <div className='character-info'>
+                        <h3 className='character-name'>{character.name}</h3>
                         <p>{character.gender}</p>
                     </div>
-                    <p>{character.species}</p>
-                    <p>{character.origin.name}</p>
+
+                    <div className='species-info'>
+                        <div className='species'>
+                            <img src={speciesIcon} alt="species-icon" />
+                            <p>{character.species}</p>
+                        </div>
+
+                        <div className='origin'>
+                            <img src={earthIcon} alt="species-icon" />
+                            <p>{character.origin.name}</p>
+                        </div>
+                    </div>
+
 
 
                     {/* episode section */}
@@ -75,31 +98,41 @@ function CharacterCard({ character, favIcon }) {
                         <div>
                             {triggerCardId === character.id && name.map((e, index) => {
                                 return (
-                                    <p key={e.id + index}>{e.name}</p>
+                                    <div key={e.id}>
+                                        <p className='episode-header'>Episode Detailes</p>
+                                        <div className="episode-container">
+                                            <p className='episode-name'>{e.name}</p>
+                                            <div className='episode-info'>
+                                                <p>{e.air_date}</p>
+                                                <p>{e.episode}</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 )
                             })}
                         </div>
                     }
-
                 </div>
 
-                <div>
+                {/* this containe logic to show latest episodes and add to fav button */}
+                <div className='card-footer'>
                     <FavChars character={character} favIcon={favIcon} />
                     <p onClick={() => {
                         setTriggerCardId(character.id)
                         setOpen(!open)
                     }} >
                         {/* change button text state based on equality of the triggerCardId and character.id */}
-                        {triggerCardId === character.id ?
-                            <span>See Less</span>
+                        {open && triggerCardId === character.id ?
+                            <span className='s'>See Less</span>
                             :
                             <span>See more</span>
                         }
                     </p>
                 </div>
-            </div>
 
-        </div>
+            </motion.div>
+        </div >
     )
 }
 

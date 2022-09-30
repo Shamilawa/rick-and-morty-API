@@ -11,29 +11,210 @@
     url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
 }
 
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "poppins";
+  background-color: #24242f;
+  color: #e4e4e6;
 }
 
 /* App component */
 .App {
-  max-width: 1440px;
-  margin: 0 auto;
+  max-width: 1500px;
+  margin: 75px auto;
 }
 
+/* CharacterFeed Component */
+.container-header {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.container-header h5 {
+  font-size: 20px;
+  cursor: pointer;
+  padding-bottom: 8px;
+  display: inline;
+}
+
+.container-header h5:hover {
+  border-bottom: 1px solid #1bd3f4;
+}
 
 /* CharacterFeed Component */
 .character-feed-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 25px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 50px;
 }
 
+/* CharacterCard Component */
 .character-card {
-  border: 1px solid black;
+  background-color: #2a2c3c;
+  padding: 15px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.status {
+  background-color: #2a2c3c;
+  width: fit-content;
+  text-align: center;
+  border-radius: 10px;
+  color: #e4e4e6;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 2px 10px;
+  position: relative;
+  top: -287px;
+  left: 8px;
+  border: 2px solid #1bd3f4;
+}
+
+.character-img {
+  border-radius: 10px;
+  margin-bottom: -15px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  transition: 100ms ease-in;
+}
+
+.character-img:hover {
+  scale: 1.01;
+  transition: 100ms ease-in;
+}
+
+
+.character-name {
+  color: #e4e4e6;
+  font-size: 20px;
+}
+
+.character-info {
+  display: flex;
+  font-size: 15px;
+  font-weight: 400;
+  color: #888888;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #424242;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.species-info img {
+  height: 25px;
+  padding-right: 10px;
+}
+
+.species-info p {
+  color: #e4e4e6;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.species {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.origin {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #424242;
+}
+
+.episode-header {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 13px;
+}
+
+.episode-container {
+  border-bottom: 1px solid #424242;
+  margin-bottom: 20px;
+}
+
+.episode-container .episode-name {
+  font-size: 13px;
+}
+
+.episode-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.episode-info p {
+  font-size: 12px;
+  font-weight: 400;
+  color: #1bd3f4;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.card-footer p {
+  font-weight: 300;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.card-footer p:hover {
+  color: #1bd3f4;
+}
+
+/* FavChars Component */
+.fav-button {
+  cursor: pointer;
+  height: 25px;
+  /* color: #1bd3f4; */
+}
+
+/* pagination section */
+.pagination {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.pagination * {
+  font-size: 35px;
+}
+
+.pagination span:hover {
+  color: #1bd3f4;
+  cursor: pointer;
+}
+
+
+/* mobile responsive design */
+@media only screen and (max-width: 600px) {
+
+  .container-header {
+    padding: 0 15px;
+  }
+
+  .character-feed-container {
+    grid-template-columns: 1fr;
+    padding: 0 15px;
+  }
+
+  .character-card {
+    text-align: center;
+  }
+
 }
