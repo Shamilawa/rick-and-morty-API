@@ -30,6 +30,7 @@ function FavChars({ character, favIcon }) {
             data.push(newCharacter)
             localStorage.setItem(item, JSON.stringify(data))
             dispatch({ type: "LOCAL_ADD_CHARS", payload: data })
+            setClicked(true)
             return
 
         } else {
@@ -57,7 +58,6 @@ function FavChars({ character, favIcon }) {
             }
         }
     }
-
 
 
     return (

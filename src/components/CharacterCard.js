@@ -49,9 +49,7 @@ function CharacterCard({ character, favIcon }) {
         // calling the function
         getData()
 
-
     }, [character.episode, noOfEpisodes])
-
 
 
 
@@ -59,9 +57,8 @@ function CharacterCard({ character, favIcon }) {
         <div>
             <div className='character-card'>
 
-                <button onClick={() => setTriggerCardId(null)}>Close</button>
 
-                <div onClick={() => setTriggerCardId(character.id)}>
+                <div>
                     <div>{character.status}</div>
                     <img src={character.image} alt="character avatar" />
                     <div>
@@ -69,17 +66,37 @@ function CharacterCard({ character, favIcon }) {
                         <p>{character.gender}</p>
                     </div>
                     <p>{character.species}</p>
+                    <p>{character.origin.name}</p>
+
 
                     {/* episode section */}
-                    {triggerCardId === character.id && name.map((e, index) => {
-                        return (
-                            <p key={e.id + index}>{e.name}</p>
-                        )
-                    })}
+                    {/* expand the section when open state is true and triggerCardId(global state) equals to this character.id */}
+                    {open &&
+                        <div>
+                            {triggerCardId === character.id && name.map((e, index) => {
+                                return (
+                                    <p key={e.id + index}>{e.name}</p>
+                                )
+                            })}
+                        </div>
+                    }
+
                 </div>
 
-                <FavChars character={character} favIcon={favIcon} />
-
+                <div>
+                    <FavChars character={character} favIcon={favIcon} />
+                    <p onClick={() => {
+                        setTriggerCardId(character.id)
+                        setOpen(!open)
+                    }} >
+                        {/* change button text state based on equality of the triggerCardId and character.id */}
+                        {triggerCardId === character.id ?
+                            <span>See Less</span>
+                            :
+                            <span>See more</span>
+                        }
+                    </p>
+                </div>
             </div>
 
         </div>

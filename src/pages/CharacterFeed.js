@@ -11,7 +11,51 @@ function CharacterFeed() {
     const [characters, setCharacters] = useState([])
     const [shaowFavChars, setShaowFavChars] = useState(false)
 
+    // state for pagination
+    const [nextPage, setNextPage] = useState()
+    const [prevPage, setPrevPage] = useState()
+
     const { favCharacters } = useFavCharsContext()
+
+
+
+    //function to render the next page
+    const NavigateNext = async () => {
+        const res = await fetch(nextPage)
+
+        const data = await res.json()
+
+        // get the link to next page and prev page and update the state
+        if (data.info.next) {
+            setNextPage(data.info.next)
+        }
+
+        if (data.info.prev) {
+            setPrevPage(data.info.prev)
+        }
+
+        setCharacters(data.results)
+    }
+
+
+    // function to render the second page
+    const NavigatePrev = async () => {
+        const res = await fetch(prevPage)
+
+        const data = await res.json()
+
+        // get the link to next page and prev page and update the state
+        if (data.info.next) {
+            setNextPage(data.info.next)
+        }
+
+        if (data.info.prev) {
+            setPrevPage(data.info.prev)
+        }
+
+        setCharacters(data.results)
+    }
+
 
 
     // Get all data from API when the component is loaded
@@ -24,15 +68,24 @@ function CharacterFeed() {
 
             const data = await res.json()
 
-            setCharacters(data.results)
+            // get the link to next page and prev page and update the state
+            if (data.info.next) {
+                setNextPage(data.info.next)
+            }
 
+            if (data.info.prev) {
+                setNextPage(data.info.prev)
+            }
+
+            setCharacters(data.results)
         }
 
         // calling the function
         getData()
 
-
     }, [])
+
+
 
 
     // Get favourite character
@@ -40,13 +93,16 @@ function CharacterFeed() {
         setShaowFavChars(!shaowFavChars)
     }
 
+
     return (
         <div>
             <div>
-                <h5 onClick={getFavChars}>Fav Character</h5>
+                <h5 onClick={getFavChars}>{shaowFavChars ? "All Characters" : "Show fav"}</h5>
             </div>
 
             {shaowFavChars ?
+
+                //This will render the favotite character
                 <div className="character-feed-container">
                     {favCharacters && favCharacters.map((character) => {
                         return (
@@ -55,6 +111,7 @@ function CharacterFeed() {
                     })}
                 </div>
                 :
+                //This will render the all characters
                 <div className="character-feed-container">
                     {characters && characters.map((character) => {
                         return (
@@ -64,7 +121,17 @@ function CharacterFeed() {
                 </div>
             }
 
-
+            {/* Pagination - only show in the feed page*/}
+            {shaowFavChars ? null :
+                <div className="pagination">
+                    <span onClick={NavigatePrev} className="material-symbols-outlined">
+                        navigate_before
+                    </span>
+                    <span onClick={NavigateNext} className="material-symbols-outlined">
+                        navigate_next
+                    </span>
+                </div>
+            }
         </div>
     )
 }
