@@ -18,7 +18,6 @@ function FavChars({ character, favIcon }) {
     // manage the localstorage and FavCharsContext
     const storeInLocalStorage = (item, newCharacter) => {
 
-
         //get item from local storage
         var data = localStorage.getItem(item)
         data = data ? JSON.parse(data) : []
@@ -60,6 +59,7 @@ function FavChars({ character, favIcon }) {
 
     return (
         <div>
+            {/* Heart icon with onClick trigger which run storeInLocalStorage function to add characters to favorite list */}
             {favIcon &&
                 <motion.img
                     src={likeIcon}

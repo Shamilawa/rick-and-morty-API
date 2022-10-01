@@ -24,6 +24,9 @@ function CharacterCard({ character, favIcon }) {
     // this store episode informations
     const [name, setName] = useState([])
 
+    //this state store a css style object based on character status.
+    const [statusStyle, setStatusStyle] = useState()
+
     // state to track card open and close
     const [open, setOpen] = useState(false)
 
@@ -56,22 +59,46 @@ function CharacterCard({ character, favIcon }) {
 
         }
 
+
+        // Get the character status and update the data
+        const characterStatus = () => {
+
+            // if status is Alive
+            if (character.status === "Alive") {
+                return setStatusStyle({ border: "2px solid #1bd3f4", color: "#1bd3f4" })
+            }
+
+            // if satus is Dead
+            if (character.status === "Dead") {
+                return setStatusStyle({ border: "2px solid #dc2634", color: "#dc2634" })
+            }
+
+        }
+
         // calling the function
         getData()
+        characterStatus()
 
     }, [character.episode, noOfEpisodes])
 
 
     return (
         <div>
+            {/* A single card */}
             <motion.div
                 className='character-card'
                 whileTap={{ scale: 1.01 }}
             >
                 <div>
-                    <img className='character-img' src={character.image} alt="character avatar" />
-                    <div className='status'>{character.status}</div>
 
+                    {/* basic character information */}
+                    <img className='character-img' src={character.image} alt="character avatar" />
+                    <div
+                        className='status'
+                        style={statusStyle}
+                    >
+                        {character.status}
+                    </div>
 
                     <div className='character-info'>
                         <h3 className='character-name'>{character.name}</h3>
@@ -89,8 +116,6 @@ function CharacterCard({ character, favIcon }) {
                             <p>{character.origin.name}</p>
                         </div>
                     </div>
-
-
 
                     {/* episode section */}
                     {/* expand the section when open state is true and triggerCardId(global state) equals to this character.id */}

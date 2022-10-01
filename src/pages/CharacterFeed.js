@@ -27,6 +27,8 @@ function CharacterFeed() {
 
     //function to render the next page
     const NavigateNext = async () => {
+
+        // get data to next page
         const res = await fetch(nextPage)
 
         const data = await res.json()
@@ -40,14 +42,18 @@ function CharacterFeed() {
             setPrevPage(data.info.prev)
         }
 
+        // update the state to reflect the new page data
         setCharacters(data.results)
 
+        // scroll to top when new page data load
         window.scrollTo(0, 0)
     }
 
 
     // function to render the second page
     const NavigatePrev = async () => {
+
+        // get the data to next page
         const res = await fetch(prevPage)
 
         const data = await res.json()
@@ -61,8 +67,10 @@ function CharacterFeed() {
             setPrevPage(data.info.prev)
         }
 
+        // update the state to reflect the new page data
         setCharacters(data.results)
 
+        // scroll to top when new page data load
         window.scrollTo(0, 0)
     }
 
@@ -87,6 +95,7 @@ function CharacterFeed() {
                 setNextPage(data.info.prev)
             }
 
+            // update the state to reflect the new page data
             setCharacters(data.results)
         }
 
@@ -105,13 +114,15 @@ function CharacterFeed() {
 
     return (
         <div>
+            {/* Toggle to display favorite character and all character */}
             <div className='container-header'>
                 <h5 onClick={getFavChars}>{shaowFavChars ? "All Characters" : "Show Favourite Characters"}</h5>
             </div>
 
+            {/* conditionally generate the favorite charater card and all character cards */}
             {shaowFavChars ?
 
-                //This will render the favotite character
+                //This will render the favotite character cards
                 <div className="character-feed-container">
                     {favCharacters && favCharacters.map((character) => {
                         return (
@@ -120,7 +131,7 @@ function CharacterFeed() {
                     })}
                 </div>
                 :
-                //This will render the all characters
+                //This will render the all characters cards
                 <div className="character-feed-container">
                     {characters && characters.map((character) => {
                         return (
@@ -128,6 +139,7 @@ function CharacterFeed() {
                         )
                     })}
                 </div>
+
             }
 
             {/* Pagination - only show in the feed page*/}
@@ -150,6 +162,7 @@ function CharacterFeed() {
 
                 </div>
             }
+
         </div>
     )
 }
